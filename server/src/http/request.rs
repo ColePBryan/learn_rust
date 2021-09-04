@@ -1,12 +1,11 @@
-use std::{str::Utf8Error, string, str, error::Error, fmt::Display, fmt::Debug, fmt::Result as FmtResult};
-use super::method::Method;
-use super::method::MethodError;
+use std::{str::Utf8Error, str, error::Error, fmt::Display, fmt::Debug, fmt::Result as FmtResult};
+use super::{QueryString, method::{Method, MethodError}};
 use std::convert::TryFrom;
 use std::convert::From;
 
 pub struct Request <'buf> {
     path: &'buf str,
-    query_string: Option<&'buf str>,
+    query_string: Option<QueryString<'buf>>,
     method: Method,
 }
 
@@ -29,7 +28,7 @@ impl<'buf> TryFrom<&'buf[u8]> for Request <'buf> {
         let mut query_string = None;
 
         if let Some(i) = path.find('?') {
-            query_string = Some(&path[i + 1..]);
+            query_string = Some(QueryString::from(&path[i + 1..]));
             path = &path[..i];
         }
 
@@ -49,6 +48,7 @@ fn get_next_word(request: &str) -> Option<(&str, &str)> {
     }
     return None;
 }
+#[allow(clippy::enum_variant_names)]
 pub enum ParseError {
     InvalidRequest,
     InvalidEncoding,
