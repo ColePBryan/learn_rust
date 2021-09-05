@@ -47,7 +47,7 @@ fn get_next_word(request: &str) -> Option<(&str, &str)> {
             return Some((&request[..i], &request[i + 1..]))
         }
     }
-    return None;
+    None
 }
 #[allow(clippy::enum_variant_names)]
 pub enum ParseError {

@@ -11,12 +11,6 @@ pub enum Value<'buf>{
     Multiple(Vec<&'buf str>),
 }
 
-impl<'buf> QueryString<'buf> {
-    pub fn get (&self, key: &str) -> Option<&Value>{
-        self.data.get(key)
-    }
-}
-
 impl<'buf> From<&'buf str> for QueryString<'buf>{
     fn from(s: &'buf str) -> Self {
         let mut data = HashMap::new();
