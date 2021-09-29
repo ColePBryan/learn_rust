@@ -1,5 +1,7 @@
 use std::{convert::TryFrom, net::{TcpListener, TcpStream}, io::Read, thread};
 use crate::http::{Request, Response, StatusCode};
+use crate::lib::ThreadPool;
+
 
 pub struct Server {
     address: String,
@@ -14,11 +16,12 @@ impl Server {
         println!("listening on {}", self.address);
 
         let listener = TcpListener::bind(&self.address).unwrap();
+        let pool = ThreadPool::new(4);
 
         for stream in listener.incoming(){
             match stream {
                 Ok(stream) => {
-                    thread::spawn(||{
+                    pool.execute(||{
                         Server::handle_connection(stream);
                     });
                 }
