@@ -1,4 +1,4 @@
-use std::{net::TcpStream, io::{Write, Result as IoResult}};
+use std::io::{Write, Result as IoResult};
 
 use super::status_code::StatusCode;
 pub struct Response {
