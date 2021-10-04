@@ -1,10 +1,11 @@
 // #![allow(dead_code)]
-use server::Server;
+use crate::server::Server;
 use website_handler::WebsiteHandler;
 use std::env;
 mod http;
 mod server;
 mod website_handler;
+mod lib;
 
 fn main() {
     let default_path = format!("{}/public", env!("CARGO_MANIFEST_DIR"));
